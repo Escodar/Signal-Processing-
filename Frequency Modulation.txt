@@ -1,0 +1,47 @@
+fs=2000;
+d=0.15;
+t=0:1/fs:d;
+
+    for i=1:length(t)
+        if(t(i)<d/3)
+            m(i)=1;
+            
+        elseif (d/3<=t(i) && t(i)<2*d/3)
+                m(i)=-2;
+            else
+                m(i)=0;
+           
+        end
+        end
+   figure
+    plot(t,m);
+    title('m(t)');
+    fc=200;
+    
+    s=zeros(1,length(t)-1);
+    
+        for j=1:length(t)-1
+            s(j+1)=s(j)+m(j)*1/fs;
+        end
+        figure;
+        plot(t,s)
+        title('Integral of m(t)')
+        xfm=cos(2*pi.*t*fc+2*pi*50.*s);
+        figure;
+        subplot(2,1,1)
+        plot(t,m);
+        title('m(t)');
+        subplot(2,1,2);
+        plot(t,xfm);d
+        f_m=fft(m,1024);
+        fm_m=fft(xfm,1024);
+        tt=linspace(-fs/2,fs/2,1024);
+        figure;
+        subplot(2,1,1);
+        plot(tt,abs(fftshift(f_m)));
+        title('fft of m(t)');
+        subplot(2,1,2);
+        plot(tt,abs(fftshift(fm_m)));
+        title('fft of Xfm(t)');
+        title('Xfm(t)');
+        

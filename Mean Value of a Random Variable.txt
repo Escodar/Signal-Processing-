@@ -1,0 +1,89 @@
+xmin = 0;
+xmax= 10;
+n=50;
+x=xmin+rand(1,n)*(xmax-xmin);%random variable
+mean = zeros(1,50);
+
+sum1 = 0;
+for i=1:50
+for j=1:length(x)
+  sum1=sum1+x(j);
+end
+M=sum1/length(x); %the mean
+M
+mean(i) = M;
+x=xmin+rand(1,n)*(xmax-xmin);%random variable
+sum1=0;
+end
+figure(1)
+stem(mean)
+
+
+estim_mean = sum(mean)/50;
+
+
+real = zeros(1,50);
+real(:) = 5;
+estimated= zeros(1,50)
+estimated(:) = estim_mean;
+figure(2)
+plot(estimated)
+hold on
+plot(real)
+
+
+
+xmin = 0;
+xmax= 10;
+n=100;
+x=xmin+rand(1,n)*(xmax-xmin);%random variable
+mean = zeros(1,100);
+
+sum1 = 0;
+for i=1:100
+for j=1:length(x)
+  sum1=sum1+x(j);
+end
+M=sum1/length(x); %the mean
+M
+mean(i) = M;
+x=xmin+rand(1,n)*(xmax-xmin);%random variable
+sum1=0;
+end
+figure(3)
+stem(mean)
+
+
+estim_mean2 = sum(mean)/100;
+estimated2 = zeros(1,100);
+estimated2(:) = estim_mean2;
+figure(4)
+plot(estimated2)
+
+
+xmin = 0;
+xmax= 10;
+n=10;
+x=xmin+rand(1,n)*(xmax-xmin);%random variable
+mean = zeros(1,10);
+
+sum1 = 0;
+for i=1:10
+for j=1:length(x)
+  sum1=sum1+x(j);
+end
+M=sum1/length(x); %the mean
+M
+mean(i) = M;
+x=xmin+rand(1,n)*(xmax-xmin);%random variable
+sum1=0;
+end
+
+
+
+estim_mean3 = sum(mean)/10;
+estimated3 = zeros(1,10);
+estimated3(:) = estim_mean3;
+figure(5)
+plot(estimated3)
+

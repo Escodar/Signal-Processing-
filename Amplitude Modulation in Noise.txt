@@ -1,0 +1,48 @@
+%reading image and convert it 
+M = imread('circuit.tif');
+K = im2double(M);
+whos K
+
+%features
+Fc = 20000;
+L = numel(K);
+Fs = L;
+
+%creating carrier signal
+duration = 1;
+t = 0:(1/Fs):duration-(1/Fs);
+c = cos(2*pi*Fc*t);
+
+%turn message matrix to message vector by reshape and obtaining dsb-sc am
+mes=reshape(K,1,L);
+dsb=mes.*c;
+
+
+noisy_mes = awgn(dsb,5, 'measured'); %adding noise
+dsbc = noisy_mes.*cos(2*pi*Fc*t);   %calculating dsb-sc again
+
+[b, a] = butter(25,Fc/(Fs/2), 'low'); %LPF with order 25
+filtered = 2*filter(b,a,dsbc); 
+x = reshape(filtered,280,272); %demodulation
+
+figure(1) %Original and demodulated images
+subplot(1,2,1);
+imshow(M);
+hold on;
+subplot(1,2,2);
+imshow(x);
+
+figure(2) %images with different SNR values
+for i=0:1:8
+noisy_mes = awgn(dsb, -12+(3*i), 'measured');
+dsbc=noisy_mes.*cos(2*pi*Fc*t);
+[b, a] = butter(25,Fc/(Fs/2), 'low');
+filtered = 2*filter(b,a,dsbc);
+x = reshape(filtered, 280, 272);
+
+subplot(2,5,1);
+imshow(M);
+hold on;
+subplot(2,5,i+2);
+imshow(x);
+end
